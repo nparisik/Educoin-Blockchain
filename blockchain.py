@@ -220,13 +220,14 @@ def mine():
 def new_transaction():
     values = request.get_json()
 
+    
     # Check that the requred fields are in the POST'ed data
     required = ['sender', 'recipient', 'amount']
-    if not all(k in values for k in required):
+    if (values is None or not all(k in values for k in required)):
         return 'Missing values', 400
 
     # Create a new Transaction
-    index = blockchian.new_transaction(values['sender'],values['recipient'],values['amount'])
+    index = blockchain.new_transaction(values['sender'],values['recipient'],values['amount'])
     
     response = {'message': f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
@@ -242,7 +243,8 @@ def full_chain():
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
     values = request.get_json()
-
+    if values is None:
+        return "Error: Please provide some json",400
     nodes = values.get('nodes')
     if nodes is None:
         return "Error: Please supply a valid list of nodes", 400
