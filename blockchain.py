@@ -199,7 +199,7 @@ def mine():
     # The sender is "0" to signify that this node has mined a new coin.
     blockchain.new_transaction(
         sender="0",
-        recipent=node_identifier,
+        recipient=node_identifier,
         amount=1,
     )
 
