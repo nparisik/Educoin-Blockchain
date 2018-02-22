@@ -1,4 +1,5 @@
 Lauren Sachs,
 Nicholas Polich,
 Nicholas Parisik,
-Joshua Pirog
+Joshua Pirog,
+Ben Rose
