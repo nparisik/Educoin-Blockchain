@@ -1,3 +1,3 @@
-Lauren Sachs
-Nicholas Polich
-Ben Rose
+Lauren Sachs,
+Nicholas Polich,
+Nicholas Parisik
