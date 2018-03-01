@@ -18,3 +18,14 @@ Test story: new_block
 As a system, 
 when prompted for a new block in a parent blockchain, 
 I would like to expand the size of the chain, add the time the block was created, update the list of current transactions, update the previous hash, and finally add the new block to the chain.
+
+Nicholas Polich
+proof_of_work(self, last_proof)
+        Given a referrence to the blockchain and the previous proof the blockchain succeeded,
+        When this function is called,
+        Then returns the int value of the proof.
+
+valid_proof(last_proof, proof)
+        Given the previous proof the blockchain succeeded and the current proof that the blockchain succeeds,
+        When this function is called,
+        Then returns the boolean value true if the proof is valid, and false if the proof is not valid.
