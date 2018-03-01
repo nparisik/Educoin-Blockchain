@@ -1,0 +1,84 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Blockchain Requests",
+		"_postman_id": "b0d5c17c-ff09-59c0-0cf7-8e82334ca9aa",
+		"description": "all the reqeusts to interacting with the blockchain so far",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://{{addr}}:{{port}}/nodes/register",
+			"request": {
+				"url": "http://{{addr}}:{{port}}/nodes/register",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nodes\": [\"http://localhost:5000\"]\n}"
+				},
+				"description": "register new nodes to the blockchain"
+			},
+			"response": []
+		},
+		{
+			"name": "http://{{addr}}:{{port}}/transactions/new",
+			"request": {
+				"url": "http://{{addr}}:{{port}}/transactions/new",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sender\": \"5000\",\n\t\"recipient\": \"5001\",\n\t\"amount\": 200\n}"
+				},
+				"description": "add new trasactions to the network"
+			},
+			"response": []
+		},
+		{
+			"name": "http://{{addr}}:{{port}}/mine",
+			"request": {
+				"url": "http://{{addr}}:{{port}}/mine",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "mine a block"
+			},
+			"response": []
+		},
+		{
+			"name": "http://{{addr}}:{{port}}/chain",
+			"request": {
+				"url": "http://{{addr}}:{{port}}/chain",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "see the blockchain"
+			},
+			"response": []
+		},
+		{
+			"name": "http://{{addr}}:{{port}}/nodes/resolve",
+			"request": {
+				"url": "http://{{addr}}:{{port}}/nodes/resolve",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "ask node to find out the longest chain in the network"
+			},
+			"response": []
+		}
+	]
+}
