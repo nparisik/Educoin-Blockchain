@@ -1,12 +1,18 @@
 #Source: https://hackernoon.com/learn-blockchains-by-building-one-117428612f46
 import hashlib
 import json
+import sys
+from urllib.parse import urlparse
 from textwrap import dedent
 from time import time
 from uuid import uuid4
-
+import requests
 from flask import Flask, jsonify, request
 
+if (len(sys.argv) < 2):
+    raise Exception("Did not specify port number as an arguement")
+
+portn=int(sys.argv[1])
 
 class Blockchain(object):
     def __init__(self):
@@ -277,4 +283,4 @@ def consensus():
     return jsonify(response), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=portn)
