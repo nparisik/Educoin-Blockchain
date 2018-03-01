@@ -1,0 +1,27 @@
+mine:
+Given a function that mines a block
+when a mine request is sent
+then the all the transactions will be formed into a block and given a valid hash
+
+
+new_transaction:
+Given a function that takes in new transactions
+When a new trasaction is sent
+Then the transaction will be added to the array of transactions
+
+
+full_chain:
+Given a function that gets the full blockchain
+when a request is sent for the blockchain
+then a responce is sent with the full blockchain
+
+
+register_nodes:
+Given a function that registers a new node
+when a request is sent to a new node
+then the current node will add that new node to its list of nodes
+
+consensus:
+Given a function that checks who has the longer valid blockchain
+when a request is sent to validate the longest chain
+then the longest valid chain replace the current chain if needed
