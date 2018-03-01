@@ -8,3 +8,13 @@ Nick Parisik:
     Given a block,
     When this function is called,
     Then a SHA-256 hash of the block is created
+    
+Test story: constructor
+As a system, 
+when a prompt is received for a new coin, 
+I would like to create a field for a blank chain, create a blank field for all current and previous transactions, and create a set of nodes to protect against duplicates.
+
+Test story: new_block
+As a system, 
+when prompted for a new block in a parent blockchain, 
+I would like to expand the size of the chain, add the time the block was created, update the list of current transactions, update the previous hash, and finally add the new block to the chain.
