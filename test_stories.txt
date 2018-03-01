@@ -42,6 +42,20 @@ Lauren Sachs:
     Given a user and an existing blochchain
     When a new transaction occurs
     Then the program gives the user a new memory location for a new secure transaction
+    
+
+Josh Pirog
+
+    Valid_chain:
+    Given the need to check validity of a block chain
+    when the function is called it
+    then checks whether the hash of the block chain is correct and that proof of work is valid.
+
+    Resolve_conflicts:
+    Given the need to resolve conflicts in the network, 
+    when the function is called it
+    then replaces the current chain with the longest one in the network to ensure system security.
+
 
 Avi Pilly:
 	mine:
