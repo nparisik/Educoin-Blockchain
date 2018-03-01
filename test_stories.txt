@@ -1,27 +1,73 @@
-mine:
-Given a function that mines a block
-when a mine request is sent
-then the all the transactions will be formed into a block and given a valid hash
+Nick Parisik:
+    Last Block:
+    Given a reference to the blockchain,
+    When this function is called,
+    Then the last block of the blockchain is referenced
+
+    Hash:
+    Given a block,
+    When this function is called,
+    Then a SHA-256 hash of the block is created
+
+Ben Rose:
+Test story: constructor
+    As a system, 
+    when a prompt is received for a new coin, 
+    I would like to create a field for a blank chain, create a blank field for all current and previous transactions, and create a set of nodes to protect against duplicates.
+
+Test story: new_block
+    As a system, 
+    when prompted for a new block in a parent blockchain, 
+    I would like to expand the size of the chain, add the time the block was created, update the list of current transactions, update the previous hash, and finally add the new block to the chain.
+
+Nicholas Polich
+proof_of_work(self, last_proof)
+        Given a referrence to the blockchain and the previous proof the blockchain succeeded,
+        When this function is called,
+        Then returns the int value of the proof.
+
+valid_proof(last_proof, proof)
+        Given the previous proof the blockchain succeeded and the current proof that the blockchain succeeds,
+        When this function is called,
+        Then returns the boolean value true if the proof is valid, and false if the proof is not valid.
+        
+Lauren Sachs:
+
+    Resolve Conflicts:
+    Given multiple users using the same blockchain
+    When multiple users attempt to update the blockchain and a  conflict occurs
+    Then the blockchain updates to the longer, more updated valid chain
+    
+    New Transaction:
+    Given a user and an existing blochchain
+    When a new transaction occurs
+    Then the program gives the user a new memory location for a new secure transaction
+
+Avi Pilly:
+	mine:
+	Given a function that mines a block
+	when a mine request is sent
+	then the all the transactions will be formed into a block and given a valid hash
+	
+	
+	new_transaction:
+	Given a function that takes in new transactions
+	When a new trasaction is sent
+	Then the transaction will be added to the array of transactions
 
 
-new_transaction:
-Given a function that takes in new transactions
-When a new trasaction is sent
-Then the transaction will be added to the array of transactions
+	full_chain:
+	Given a function that gets the full blockchain
+	when a request is sent for the blockchain
+	then a responce is sent with the full blockchain
 
 
-full_chain:
-Given a function that gets the full blockchain
-when a request is sent for the blockchain
-then a responce is sent with the full blockchain
+	register_nodes:
+	Given a function that registers a new node
+	when a request is sent to a new node
+	then the current node will add that new node to its list of nodes
 
-
-register_nodes:
-Given a function that registers a new node
-when a request is sent to a new node
-then the current node will add that new node to its list of nodes
-
-consensus:
-Given a function that checks who has the longer valid blockchain
-when a request is sent to validate the longest chain
-then the longest valid chain replace the current chain if needed
+	consensus:
+	Given a function that checks who has the longer valid blockchain
+	when a request is sent to validate the longest chain
+	then the longest valid chain replace the current chain if needed
