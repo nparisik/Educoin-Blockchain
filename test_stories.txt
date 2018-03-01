@@ -1,0 +1,10 @@
+Nick Parisik:
+    Last Block:
+    Given a reference to the blockchain,
+    When this function is called,
+    Then the last block of the blockchain is referenced
+
+    Hash:
+    Given a block,
+    When this function is called,
+    Then a SHA-256 hash of the block is created
