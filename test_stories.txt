@@ -29,3 +29,15 @@ valid_proof(last_proof, proof)
         Given the previous proof the blockchain succeeded and the current proof that the blockchain succeeds,
         When this function is called,
         Then returns the boolean value true if the proof is valid, and false if the proof is not valid.
+        
+Lauren Sachs:
+
+    Resolve Conflicts:
+    Given multiple users using the same blockchain
+    When multiple users attempt to update the blockchain and a  conflict occurs
+    Then the blockchain updates to the longer, more updated valid chain
+    
+    New Transaction:
+    Given a user and an existing blochchain
+    When a new transaction occurs
+    Then the program gives the user a new memory location for a new secure transaction
