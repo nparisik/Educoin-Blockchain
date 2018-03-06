@@ -62,7 +62,7 @@ our requests to function properly.
 ### Postman Commands
 There are a few different actions we can take using Postman at this step.
 NOTE: change the address in each of the commands below with the address of the node
-being used. 
+being used. To make life easier you can import all of the following reqeusts by importing the Postman folder into the Postman application. This will create a collection and environment that you can use to simplify typing in the entire request everytime. They will serve as templates so feel free to modify them. Also make sure that you set your environment in postman correctly to use these templates with variables. 
 For the purpose of following these instructions, the address below is fine.
 
 * Mine a block
