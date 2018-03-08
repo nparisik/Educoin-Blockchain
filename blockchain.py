@@ -13,12 +13,16 @@ if (len(sys.argv) < 2):
     raise Exception("Did not specify port number as an arguement")
 
 portn=int(sys.argv[1])
+# pinging another site to get our ip addr
+#addr = requests.get('http://ip.42.pl/raw').text
+addr = "localhost"
 
 class Blockchain(object):
     def __init__(self):
         self.chain = []
         self.current_transactions = []
         self.nodes=set()
+        self.transaction_ids=set()
 
         #Create the genesis block
         self.new_block(previous_hash=1,proof=100)
@@ -135,6 +139,17 @@ class Blockchain(object):
 
         return self.last_block['index'] + 1
 
+    def new_transaction_id(self, id):
+        """
+        Adds a new transaction Id so that the same transaction cant be added twice
+        :param id: <str> Id of the transaction
+        :return: <bool> Whether the transaction was already known
+        """
+        if (id in self.transaction_ids):
+            return False
+        self.transaction_ids.add(id)
+        return True
+
     @property
     def last_block(self):
         return self.chain[-1]
@@ -222,19 +237,62 @@ def mine():
     }
     return jsonify(response), 200
 
+# TODO: lock this function so only 1 request allowed at a time
+@app.route('/nodes/transactions/new', methods=['POST'])
+def new_transaction_internal():
+    values = request.get_json()
+    
+    # Check that required fields are in the POST'ed data
+
+    required = ['id','nodes', 'transaction']
+    if (values is None or not all (k in values for k in required)):
+        return 'Missing values', 400
+    required = ['sender', 'recipient', 'amount']
+    if (values is None or not all(k in values['transaction'] for k in required)):
+        return 'Missing transaction values', 400
+    netloc = f'{addr}:{portn}'
+    
+    if (not blockchain.new_transaction_id(values['id'])):
+        return 'Already have transaction', 200
+    
+    diff = blockchain.nodes - set(values['nodes'])
+    # add new nodes to blockchain
+    values['nodes']= list(blockchain.nodes | set(values['nodes']))
+    for node in diff :
+        blockchain.register_node(node)
+        requests.post(f'http://{node}/nodes/transactions/new', json = values)
+    # Create a new Transaction
+    index = blockchain.new_transaction(values['transaction']['sender'],values['transaction']['recipient'],values['transaction']['amount'])
+    
+    response = {'message': f'Transaction will be added to Block {index}'}
+    return jsonify(response), 201
+        
+        
+    
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
-
     
-    # Check that the requred fields are in the POST'ed data
+    # Check that the required fields are in the POST'ed data
     required = ['sender', 'recipient', 'amount']
     if (values is None or not all(k in values for k in required)):
         return 'Missing values', 400
 
     # Create a new Transaction
     index = blockchain.new_transaction(values['sender'],values['recipient'],values['amount'])
+    temp = set()
+    temp.add(f'{addr}:{portn}')
+    temp.update(blockchain.nodes)
+    # Include nodes broadcasting to so nodes know who it was sent too
+    broadcast = {'id': str(uuid4()),
+                 'nodes': list(temp),
+                 'transaction': {
+                     'sender': values['sender'],
+                     'recipient': values['recipient'],
+                     'amount': values['amount']}}
     
+    for node in blockchain.nodes:
+             requests.post(f'http://{node}/nodes/transactions/new', json = broadcast)
     response = {'message': f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
