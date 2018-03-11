@@ -9,13 +9,12 @@ from uuid import uuid4
 import requests
 from flask import Flask, jsonify, request
 
-if (len(sys.argv) < 2):
-    raise Exception("Did not specify port number as an arguement")
+if (len(sys.argv) < 3):
+    print ("usage: python blockchain.py <host-address> <port>")
+    sys.exit()
 
-portn=int(sys.argv[1])
-# pinging another site to get our ip addr
-#addr = requests.get('http://ip.42.pl/raw').text
-addr = "localhost"
+portn=int(sys.argv[2])
+addr = sys.argv[1]
 
 class Blockchain(object):
     def __init__(self):
@@ -341,4 +340,4 @@ def consensus():
     return jsonify(response), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=portn)
+    app.run(host=addr, port=portn)
