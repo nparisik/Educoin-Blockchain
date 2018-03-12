@@ -7,6 +7,9 @@ and they can also exchange other forms of currency for Educoins.
 ## Getting Started
 ### Prerequisites
 * [Python 3.6](https://www.python.org/downloads/) - IDLE included
+	* [Flask] Flask Module for python
+	* [Requests] Requests Module for python
+	* [RSA] RSA Module for python
 * [Postman](https://www.getpostman.com/apps) - for blockchain/transaction management
 
 ### Configuration
