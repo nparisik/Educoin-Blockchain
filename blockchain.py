@@ -126,7 +126,7 @@ class Blockchain(object):
                 # convert into byte array 
                 sig = base64.b64decode(signature.encode('UTF-8'))
                 rsa.verify(message.encode('UTF-8'),sig,pub)
-                print("made it")
+                
                 # allow certain key to create money no matter what
                 if (pub==CREATOR_KEY or gen):
                     tamount = amount if (not sender in unspent.keys()) else amount + unspent[recipient]
