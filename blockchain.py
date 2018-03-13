@@ -7,6 +7,7 @@ from threading import Lock
 import rsa
 import base64
 import json
+import requests
 
 # TODO implement creator public key
 pub_key = open("Creator_Keys/pub_key","r")
@@ -80,7 +81,7 @@ class Blockchain(object):
                 return False
             
             for t in block['transactions']:
-                if (not valid_transaction(t['sender'],t['recipient'],t['amount'],t['signature'],unspent=unspent)):
+                if (not self.valid_transaction(t['sender'],t['recipient'],t['amount'],t['signature'],unspent=unspent)):
                     return False
                     
             # Check that the Proof of Work is correct
@@ -112,7 +113,9 @@ class Blockchain(object):
             # verify identity of node doing transaction
             try:
                 pub = None
+                gen = False
                 if (sender == "0"):
+                    gen = True
                     pub = rsa.PublicKey.load_pkcs1(recipient)
                 else:
                     pub = rsa.PublicKey.load_pkcs1(sender)
@@ -123,20 +126,20 @@ class Blockchain(object):
                 # convert into byte array 
                 sig = base64.b64decode(signature.encode('UTF-8'))
                 rsa.verify(message.encode('UTF-8'),sig,pub)
-                
+                print("made it")
                 # allow certain key to create money no matter what
-                if (pub==CREATOR_KEY):
+                if (pub==CREATOR_KEY or gen):
                     tamount = amount if (not sender in unspent.keys()) else amount + unspent[recipient]
-                    temp = {recipient: amount}
+                    temp = {recipient: tamount}
                     unspent.update(temp)
                     
                     return True
                 # verify if node has enough money to send
-                if (sender in unspent.keys() and unspent[sender]<=amount):
+                if (sender in unspent.keys() and unspent[sender]<amount):
                     return False
                 tloss = unspent[sender] - amount
                 tamount = amount if (not recipient in unspent.keys()) else amount + unspent[recipient]
-                temp = {sender: tloss,recipient: amount}
+                temp = {sender: tloss,recipient: tamount}
                 unspent.update(temp)
                 
             except:
