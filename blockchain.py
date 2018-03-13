@@ -5,9 +5,13 @@ from textwrap import dedent
 from time import time
 from threading import Lock
 import rsa
+import base64
+import json
 
-# TODO
-CREATOR_KEY="asdf"
+# TODO implement creator public key
+pub_key = open("Creator_Keys/pub_key","r")
+CREATOR_KEY= rsa.PublicKey.load_pkcs1(pub_key.read())
+pub_key.close()
 
 class Blockchain(object):
     def __init__(self):
@@ -88,7 +92,6 @@ class Blockchain(object):
 
         return True
 
-    # TODO: implement transaction validator
     def valid_transaction(self,sender,recipient,amount,signature,unspent=None):
         """
         Determine if a transaction is valid
@@ -104,15 +107,22 @@ class Blockchain(object):
         if (unspent is None):
             unspent = self.unspent
         lock = Lock()
+        
         with (lock):
             # verify identity of node doing transaction
             try:
-                pub = rsa.PublicKey.load_pksc1(sender)
+                pub = None
+                if (sender == "0"):
+                    pub = rsa.PublicKey.load_pkcs1(recipient)
+                else:
+                    pub = rsa.PublicKey.load_pkcs1(sender)
+                
                 # double check if destination is valid public key
                 rec = rsa.PublicKey.load_pkcs1(recipient)
                 message = f'{sender}{recipient}{amount}'
-                rsa.verify(message,signature,pub)
-                
+                # convert into byte array 
+                sig = base64.b64decode(signature.encode('UTF-8'))
+                rsa.verify(message.encode('UTF-8'),sig,pub)
                 
                 # allow certain key to create money no matter what
                 if (pub==CREATOR_KEY):
@@ -252,3 +262,4 @@ class Blockchain(object):
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] =="0000"
+        

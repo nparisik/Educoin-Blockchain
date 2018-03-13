@@ -4,6 +4,7 @@ import blockchain as bc
 import json
 import sys
 import rsa
+import base64
 from uuid import uuid4
 
 # Cryptocurrency is just a private key that "allows" access to account
@@ -27,10 +28,13 @@ def mine():
 
     # We must receive a reward for finding the proof.
     # The sender is "0" to signify that this node has mined a new coin.
+    message = f'0{node_identifier}1'
+    signature = rsa.sign(message.encode('UTF-8'),priv_key,'SHA-256')
     blockchain.new_transaction(
         sender="0",
         recipient=node_identifier,
         amount=1,
+        signature = base64.b64encode(signature).decode('UTF-8')
     )
 
     # Forge the new Block by adding it to the chain
