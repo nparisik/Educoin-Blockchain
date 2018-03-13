@@ -56,14 +56,14 @@ def new_transaction_internal():
     required = ['id','nodes', 'transaction']
     if (values is None or not all (k in values for k in required)):
         return 'Missing values', 400
-    required = ['sender', 'recipient', 'amount']
+    required = ['sender', 'recipient', 'amount', 'signature']
     if (values is None or not all(k in values['transaction'] for k in required)):
         return 'Missing transaction values', 400
     
     if (not blockchain.new_transaction_id(values['id'])):
         return 'Already have transaction', 200
     
-    if (not blockchain.valid_transaction("asdf")):
+    if (not blockchain.valid_transaction(values['sender'],values['recipient'],values['amount'],values['signature'])):
         return 'Invalid Transaction', 400
     
     diff = blockchain.nodes - set(values['nodes'])
@@ -74,7 +74,7 @@ def new_transaction_internal():
         blockchain.register_node(node)
         requests.post(f'http://{node}/nodes/transactions/new', json = values)
     # Create a new Transaction
-    index = blockchain.new_transaction(values['transaction']['sender'],values['transaction']['recipient'],values['transaction']['amount'])
+    index = blockchain.new_transaction(values['transaction']['sender'],values['transaction']['recipient'],values['transaction']['amount'],values['transaction']['signature'])
 
     response = {'message': f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
@@ -86,14 +86,14 @@ def new_transaction():
     values = request.get_json()
     
     # Check that the required fields are in the POST'ed data
-    required = ['sender', 'recipient', 'amount']
+    required = ['sender', 'recipient', 'amount', 'signature']
     if (values is None or not all(k in values for k in required)):
         return 'Missing values', 400
-    if (not blockchain.valid_transaction("asdf")):
+    if (not blockchain.valid_transaction(values['sender'],values['recipient'],values['amount'],values['signature'])):
         return 'Invalid Transaction', 400
     
     # Create a new Transaction
-    index = blockchain.new_transaction(values['sender'],values['recipient'],values['amount'])
+    index = blockchain.new_transaction(values['sender'],values['recipient'],values['amount'],values['signature'])
     temp = set()
     temp.add(f'{addr}:{portn}')
     temp.update(blockchain.nodes)
