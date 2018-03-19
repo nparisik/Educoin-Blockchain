@@ -107,45 +107,43 @@ class Blockchain(object):
 
         if (unspent is None):
             unspent = self.unspent
-        lock = Lock()
         
-        with (lock):
-            # verify identity of node doing transaction
-            try:
-                pub = None
-                gen = False
-                if (sender == "0"):
-                    gen = True
-                    pub = rsa.PublicKey.load_pkcs1(recipient)
-                else:
-                    pub = rsa.PublicKey.load_pkcs1(sender)
+        # verify identity of node doing transaction
+        try:
+            pub = None
+            gen = False
+            if (sender == "0"):
+                gen = True
+                pub = rsa.PublicKey.load_pkcs1(recipient)
+            else:
+                pub = rsa.PublicKey.load_pkcs1(sender)
                 
-                # double check if destination is valid public key
-                rec = rsa.PublicKey.load_pkcs1(recipient)
-                message = f'{sender}{recipient}{amount}'
-                # convert into byte array 
-                sig = base64.b64decode(signature.encode('UTF-8'))
-                rsa.verify(message.encode('UTF-8'),sig,pub)
-                
-                # allow certain key to create money no matter what
-                if (pub==CREATOR_KEY or gen):
-                    tamount = amount if (not sender in unspent.keys()) else amount + unspent[recipient]
-                    temp = {recipient: tamount}
-                    unspent.update(temp)
-                    
-                    return True
-                # verify if node has enough money to send
-                if (sender in unspent.keys() and unspent[sender]<amount):
-                    return False
-                tloss = unspent[sender] - amount
-                tamount = amount if (not recipient in unspent.keys()) else amount + unspent[recipient]
-                temp = {sender: tloss,recipient: tamount}
+            # double check if destination is valid public key
+            rec = rsa.PublicKey.load_pkcs1(recipient)
+            message = f'{sender}{recipient}{amount}'
+            # convert into byte array 
+            sig = base64.b64decode(signature.encode('UTF-8'))
+            rsa.verify(message.encode('UTF-8'),sig,pub)
+            
+            # allow certain key to create money no matter what
+            if (pub==CREATOR_KEY or gen):
+                tamount = amount if (not sender in unspent.keys()) else amount + unspent[recipient]
+                temp = {recipient: tamount}
                 unspent.update(temp)
-                
-            except:
+                    
+                return True
+            # verify if node has enough money to send
+            if (sender in unspent.keys() and unspent[sender]<amount):
                 return False
+            tloss = unspent[sender] - amount
+            tamount = amount if (not recipient in unspent.keys()) else amount + unspent[recipient]
+            temp = {sender: tloss,recipient: tamount}
+            unspent.update(temp)
+            
+        except:
+            return False
         
-        return True;
+        return True
     
     def resolve_conflicts(self):
         """
