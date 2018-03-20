@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "Blockchain Requests",
-		"_postman_id": "b0d5c17c-ff09-59c0-0cf7-8e82334ca9aa",
+		"_postman_id": "98b6aa87-3dbe-10c5-936c-66b8126cde86",
 		"description": "all the reqeusts to interacting with the blockchain so far",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -41,7 +41,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"sender\": \"5000\",\n\t\"recipient\": \"5001\",\n\t\"amount\": 200\n}"
+					"raw": "{\n\t\"sender\": \"-----BEGIN RSA PUBLIC KEY-----\\nMEgCQQCjRU2+RB6v85Z72Kn+FIOUvYroQ1En/IObMbCtdzGqHUZcgMrR361aiMgr\\nqAZBt9YT2cR9PwA7aUQU17WyFSe/AgMBAAE=\\n-----END RSA PUBLIC KEY-----\\n\",\n\t\"recipient\": \"-----BEGIN RSA PUBLIC KEY-----\\nMEgCQQCeLGEf8gbgM2L+ojj8Z1oin45HAerscOWswHVV5SFIIArL6YVsjZW4Eg4p\\n/1OIWaJbnKc0cLAtOU5YKf1m+RfvAgMBAAE=\\n-----END RSA PUBLIC KEY-----\\n\",\n\t\"amount\": 200,\n\t\"signature\": \"Bhfz/YsfmIbt9amWsUxocIJ7uzrqidvFZZb8Ykc7sMMkWbHaXyhLexRSa99ooHqJufKuhJlHMx+DKID6T/QNjQ==\"\n}"
 				},
 				"description": "add new trasactions to the network"
 			},
@@ -53,7 +53,10 @@
 				"url": "http://{{addr}}:{{port}}/mine",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": "mine a block"
 			},
 			"response": []
@@ -64,7 +67,10 @@
 				"url": "http://{{addr}}:{{port}}/chain",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": "see the blockchain"
 			},
 			"response": []
@@ -75,7 +81,10 @@
 				"url": "http://{{addr}}:{{port}}/nodes/resolve",
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"description": "ask node to find out the longest chain in the network"
 			},
 			"response": []
