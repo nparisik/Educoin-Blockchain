@@ -48,6 +48,39 @@ class Blockchain(object):
 
         self.chain.append(block)
         return block
+    def accept_block(self, proof, index, previous_hash, timestamp, transactions):
+        """
+        Accepting a Block in the Blockchain
+
+        :param proof: <int> The proof given by the Proof of Work algorithim
+        :param index: <int> Index of block in blockchain at remote node
+        :param previous_hash: <int> Hash of the previous block at remote node
+        :param timestamp: <str> Time block was created
+        :param transactions: List of transactions
+        
+        :return: <bool> whether block was accepted or not
+        """
+        if(len(self.chain) != index):
+            return False
+        if(self.last_block['timestamp'] < timestamp):
+            return False
+        if(self.hash(self.last_block) == previous_hash):
+            return False
+        if(not self.valid_proof(previous_hash, proof)):
+            return False
+        
+         block = {
+            'index': index,
+            'timestamp': timestamp,
+            'transactions': transactions,
+            'proof': proof,
+            "previous_hash": previous_hash
+        }
+        # TODO: filter out transactions from current_transactions
+
+        self.chain.append(block)
+        return True
+
 
     def register_node(self, address):
         """
