@@ -8,6 +8,7 @@ import rsa
 import base64
 import json
 import requests
+import transactions as tr
 
 # TODO implement creator public key
 pub_key = open("Creator_Keys/pub_key","r")
@@ -17,11 +18,13 @@ pub_key.close()
 class Blockchain(object):
     def __init__(self):
         self.chain = []
-        self.current_transactions = []
+        self.current_transactions = current_transactions
         self.nodes=set()
         self.transaction_ids=set()
         self.amount = 0
         self.unspent = {}
+        #Used for validating incoming transactions, later updating unspent
+        self.temp_unspent = {}
 
         #Create the genesis block
         self.new_block(previous_hash=1,proof=100)
@@ -45,6 +48,9 @@ class Blockchain(object):
         
         #Reset the current list of transactions
         self.current_transactions = []
+
+        #Update unspent w/ temporary unspent dictionary
+        self.unspent.update(self.temp_unspent)
 
         self.chain.append(block)
         return block
@@ -106,7 +112,7 @@ class Blockchain(object):
         """
 
         if (unspent is None):
-            unspent = self.unspent
+            unspent = self.temp_unspent
         
         # verify identity of node doing transaction
         try:
@@ -181,7 +187,9 @@ class Blockchain(object):
             self.chain = new_chain
             # add new unspent values that we just calculated
             self.unspent.clear()
+            self.temp_unspent.clear()
             self.unspent.update(new_unspent)
+            self.temp_unspent.update(new_unspent)
             return True
         
         return False
