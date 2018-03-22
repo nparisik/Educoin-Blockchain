@@ -53,6 +53,7 @@ class Blockchain(object):
 
         self.chain.append(block)
         return block
+    
     def accept_block(self, proof, index, previous_hash, timestamp, transactions):
         """
         Accepting a Block in the Blockchain
@@ -73,6 +74,15 @@ class Blockchain(object):
             return False
         if(not self.valid_proof(previous_hash, proof)):
             return False
+
+        self.temp_unspent.clear()
+        self.temp_unspent.update(self.unspent)
+        
+        for t in transactions:
+            if (not(valid_transaction(t['sender'], t['recipient'], t['amount'], t['signature'])):
+                return False
+        self.unspent.update(self.temp_unspent)
+            
         
         block = {
             'index': index,
