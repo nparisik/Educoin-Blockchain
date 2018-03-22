@@ -47,13 +47,10 @@ class Blockchain(object):
         
         #Reset the current list of transactions
         self.current_transactions = []
-<<<<<<< HEAD
 
         #Update unspent w/ temporary unspent dictionary
         self.unspent.update(self.temp_unspent)
 
-        
->>>>>>> 4951cb1dee7030e961ba7e659834fa9ff7ded7ff
         self.chain.append(block)
         return block
     def accept_block(self, proof, index, previous_hash, timestamp, transactions):
