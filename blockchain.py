@@ -36,7 +36,7 @@ class Blockchain(object):
         :param previous_hash: (Optional) <str> Hash of previous Block
         :return: <dict> New Block
         """
-
+    
         block = {
             'index': len(self.chain) +1,
             'timestamp': time(),
@@ -47,13 +47,49 @@ class Blockchain(object):
         
         #Reset the current list of transactions
         self.current_transactions = []
+<<<<<<< HEAD
 
         #Update unspent w/ temporary unspent dictionary
         self.unspent.update(self.temp_unspent)
 
+        
+>>>>>>> 4951cb1dee7030e961ba7e659834fa9ff7ded7ff
         self.chain.append(block)
         return block
-
+    def accept_block(self, proof, index, previous_hash, timestamp, transactions):
+        """
+        Accepting a Block in the Blockchain
+        
+        :param proof: <int> The proof given by the Proof of Work algorithim
+        :param index: <int> Index of block in blockchain at remote node
+        :param previous_hash: <int> Hash of the previous block at remote node
+        :param timestamp: <str> Time block was created
+        :param transactions: List of transactions
+        
+        :return: <bool> whether block was accepted or not
+        """
+        if(len(self.chain) != index):
+            return False
+        if(self.last_block['timestamp'] < timestamp):
+            return False
+        if(self.hash(self.last_block) == previous_hash):
+            return False
+        if(not self.valid_proof(previous_hash, proof)):
+            return False
+        
+        block = {
+            'index': index,
+            'timestamp': timestamp,
+            'transactions': transactions,
+            'proof': proof,
+            "previous_hash": previous_hash
+        }
+        # TODO: filter out transactions from current_transactions
+        
+        self.chain.append(block)
+        return True
+    
+    
     def register_node(self, address):
         """
         Add a new node to the list of nodes
