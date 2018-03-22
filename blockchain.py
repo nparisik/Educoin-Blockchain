@@ -19,7 +19,6 @@ class Blockchain(object):
         self.chain = []
         self.current_transactions = []
         self.nodes=set()
-        self.transaction_ids=set()
         self.amount = 0
         self.unspent = {}
 
@@ -205,17 +204,6 @@ class Blockchain(object):
 
         return self.last_block['index'] + 1
 
-    def new_transaction_id(self, id):
-        """
-        Adds a new transaction Id so that the same transaction cant be added twice
-        :param id: <str> Id of the transaction
-        :return: <bool> Whether the transaction was already known
-        """
-        if (id in self.transaction_ids):
-            return False
-        self.transaction_ids.add(id)
-        return True
-
     @property
     def last_block(self):
         return self.chain[-1]
@@ -263,4 +251,15 @@ class Blockchain(object):
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] =="0000"
-        
+   
+   def test_transaction(self, last_transaction):
+        """
+        Takes in transaction id and tests to see if transaction has already occured.
+
+        :param last_transaction: <dict> Previous Transaction
+        :return: <bool> True if transaction id is unique, false otherwise
+        """
+        for t in self.current_transactions:
+            if t["sender"] = last_transactions["sender"] and t["recipient"] = last_transactions["recipient"] and t["amount"] = last_transactions["amount"]:
+                return False
+        return True

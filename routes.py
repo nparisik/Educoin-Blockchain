@@ -50,7 +50,6 @@ def mine():
     }
     return jsonify(response), 200
 
-# TODO: lock this function so only 1 request allowed at a time
 @app.route('/nodes/transactions/new', methods=['POST'])
 def new_transaction_internal():
     values = request.get_json()
@@ -64,7 +63,7 @@ def new_transaction_internal():
     if (values is None or not all(k in values['transaction'] for k in required)):
         return 'Missing transaction values', 400
     
-    if (not blockchain.new_transaction_id(values['id'])):
+    if (not blockchain.test_transaction(values)):
         return 'Already have transaction', 200
     
     if (not blockchain.valid_transaction(values['sender'],values['recipient'],values['amount'],values['signature'])):
