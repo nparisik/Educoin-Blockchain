@@ -8,7 +8,6 @@ import rsa
 import base64
 import json
 import requests
-import transactions as tr
 
 # TODO implement creator public key
 pub_key = open("Creator_Keys/pub_key","r")
@@ -18,7 +17,7 @@ pub_key.close()
 class Blockchain(object):
     def __init__(self):
         self.chain = []
-        self.current_transactions = current_transactions
+        self.current_transactions = []
         self.nodes=set()
         self.transaction_ids=set()
         self.amount = 0
