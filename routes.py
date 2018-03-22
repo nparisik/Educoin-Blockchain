@@ -56,7 +56,7 @@ def new_transaction_internal():
     
     # Check that required fields are in the POST'ed data
 
-    required = ['id','nodes', 'transaction']
+    required = ['nodes', 'transaction']
     if (values is None or not all (k in values for k in required)):
         return 'Missing values', 400
     required = ['sender', 'recipient', 'amount', 'signature']
@@ -101,9 +101,8 @@ def new_transaction():
     temp.add(f'{addr}:{portn}')
     temp.update(blockchain.nodes)
     # Include nodes broadcasting to so nodes know who it was sent too
-    broadcast = {'id': str(uuid4()),
-                 'nodes': list(temp),
-                 'transaction': {
+    broadcast = {'nodes': list(temp),
+                   'transaction': {
                      'sender': values['sender'],
                      'recipient': values['recipient'],
                      'amount': values['amount']}}
