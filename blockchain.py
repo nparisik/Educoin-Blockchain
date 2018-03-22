@@ -79,7 +79,7 @@ class Blockchain(object):
         self.temp_unspent.update(self.unspent)
         
         for t in transactions:
-            if (not(valid_transaction(t['sender'], t['recipient'], t['amount'], t['signature'])):
+            if (not valid_transaction(t['sender'], t['recipient'], t['amount'], t['signature'])):
                 return False
         self.unspent.update(self.temp_unspent)
             
