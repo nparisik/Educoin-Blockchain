@@ -131,8 +131,15 @@ def register_nodes():
     if nodes is None:
         return "Error: Please supply a valid list of nodes", 400
 
+    request_body = {
+
+        "nodes" : [f 'http://{addr}:{portn}']
+
+    }
+
     for node in nodes:
         blockchain.register_node(node)
+        requests.post(f'{node}/nodes/register', json = request_body)
 
     response = {
         'message': 'New nodes have been added',
