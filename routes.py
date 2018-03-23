@@ -41,6 +41,18 @@ def mine():
     previous_hash = blockchain.hash(last_block)
     block = blockchain.new_block(proof, previous_hash)
 
+    temp = set()
+    temp.add(f'{addr}:{portn}')
+    temp.update(blockchain.nodes)
+    
+    broadcast = {
+        'nodes': list(temp),
+        'block': block
+    }
+    
+    for node in blockchain.nodes:
+             requests.post(f'http://{node}/nodes/block/new', json = broadcast)
+             
     response = {
         'message': "New Block Forged",
         'index': block['index'],
@@ -49,6 +61,31 @@ def mine():
         'previous_hash': block['previous_hash'],
     }
     return jsonify(response), 200
+
+@app.route('/nodes/block/new', methods=['POST'])
+def recieve_block():
+    values = request.get_json()
+    
+    required = ['nodes','block']
+    if (values is None or not all(k in values for k in required)):
+        return 'Missing values', 400
+    required = ['index', 'proof', 'previous_hash','timestamp','transactions']
+    if (not all(k in values['block'] for k in required)):
+        return 'Missing value in block', 400
+    
+    if (not blockchain.accept_block(values['block']['proof'],values['block']['index'],values['block']['previous_hash'],values['block']['timestamp'],values['block']['transactions'])):
+        return 'Invalid block', 400
+
+    diff = blockchain.nodes - set(values['nodes'])
+    # find nodes that werent notified of transaction
+    values['nodes']= list(blockchain.nodes | set(values['nodes']))
+    for node in diff :
+        # add new nodes to blockchain
+        blockchain.register_node(node)
+        requests.post(f'http://{node}/nodes/block/new', json = values)
+    
+
+    return 'Block Added', 201
 
 @app.route('/nodes/transactions/new', methods=['POST'])
 def new_transaction_internal():
@@ -60,7 +97,7 @@ def new_transaction_internal():
     if (values is None or not all (k in values for k in required)):
         return 'Missing values', 400
     required = ['sender', 'recipient', 'amount', 'signature']
-    if (values is None or not all(k in values['transaction'] for k in required)):
+    if (not all(k in values['transaction'] for k in required)):
         return 'Missing transaction values', 400
     
     if (not blockchain.test_transaction(values)):
