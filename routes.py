@@ -74,7 +74,7 @@ def recieve_block():
         return 'Missing value in block', 400
     
     if (not blockchain.accept_block(values['block']['proof'],values['block']['index'],values['block']['previous_hash'],values['block']['timestamp'],values['block']['transactions'])):
-        return 'Invalid block', 401
+        return 'Invalid block', 400
 
     diff = blockchain.nodes - set(values['nodes'])
     # find nodes that werent notified of transaction
