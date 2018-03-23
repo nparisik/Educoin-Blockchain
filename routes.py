@@ -117,7 +117,7 @@ def new_transaction():
 @app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
-	'transactions': blockchain.current_transactions
+	'transactions': blockchain.current_transactions,
         'chain': blockchain.chain,
         'length': len(blockchain.chain)
     }
@@ -131,11 +131,10 @@ def register_nodes():
     nodes = values.get('nodes')
     if nodes is None:
         return "Error: Please supply a valid list of nodes", 400
+    
 
     request_body = {
-
-        "nodes" : [f 'http://{addr}:{portn}']
-
+        "nodes" : [f'http://{addr}:{portn}']
     }
 
     for node in nodes:

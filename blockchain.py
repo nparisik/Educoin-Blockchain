@@ -95,7 +95,7 @@ class Blockchain(object):
         for t in self.current_transactions:
             not_in_trans = True
             for s in transactions:
-                if (t["sender"] = s["sender"] and t["recipient"] = s["recipient"] and t["amount"] = s["amount"]):
+                if t['sender'] == s['sender'] and t['recipient'] == s['recipient'] and t['amount'] == s['amount']:
                    not_in_trans = False 
             if not_in_trans:
                 temp.append(t)
@@ -317,7 +317,7 @@ class Blockchain(object):
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] =="0000"
    
-   def test_transaction(self, last_transaction):
+    def test_transaction(self, last_transaction):
         """
         Takes in transaction id and tests to see if transaction has already occured.
 
@@ -325,6 +325,6 @@ class Blockchain(object):
         :return: <bool> True if transaction id is unique, false otherwise
         """
         for t in self.current_transactions:
-            if t["sender"] = last_transactions["sender"] and t["recipient"] = last_transactions["recipient"] and t["amount"] = last_transactions["amount"]:
+            if t['sender'] == last_transactions['sender'] and t['recipient'] == last_transactions['recipient'] and t['amount'] == last_transactions['amount']:
                 return False
         return True
