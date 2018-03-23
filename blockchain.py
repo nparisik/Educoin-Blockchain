@@ -66,20 +66,23 @@ class Blockchain(object):
         
         :return: <bool> whether block was accepted or not
         """
-        if(len(self.chain) != index):
-            return False
-        if(self.last_block['timestamp'] < timestamp):
-            return False
-        if(self.hash(self.last_block) == previous_hash):
-            return False
-        if(not self.valid_proof(previous_hash, proof)):
+        if(len(self.chain) + 1 != index):
             return False
 
+        if(self.last_block['timestamp'] > timestamp):
+            return False
+        
+        if(self.hash(self.last_block) != previous_hash):
+            return False
+        
+        if(not self.valid_proof(self.last_block['proof'], proof)):
+            return False
+        
         self.temp_unspent.clear()
         self.temp_unspent.update(self.unspent)
         
         for t in transactions:
-            if (not valid_transaction(t['sender'], t['recipient'], t['amount'], t['signature'])):
+            if (not self.valid_transaction(t['sender'], t['recipient'], t['amount'], t['signature'])):
                 return False
         self.unspent.update(self.temp_unspent)
             
