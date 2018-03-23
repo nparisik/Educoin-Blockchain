@@ -101,11 +101,13 @@ def new_transaction():
     temp.add(f'{addr}:{portn}')
     temp.update(blockchain.nodes)
     # Include nodes broadcasting to so nodes know who it was sent too
-    broadcast = {'nodes': list(temp),
-                   'transaction': {
+    broadcast = {
+                  'nodes': list(temp),
+                     'transaction': {
                      'sender': values['sender'],
                      'recipient': values['recipient'],
-                     'amount': values['amount']}}
+                     'amount': values['amount'],
+                     'signature': values['signature']}}
     
     for node in blockchain.nodes:
              requests.post(f'http://{node}/nodes/transactions/new', json = broadcast)

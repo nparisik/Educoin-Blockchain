@@ -92,14 +92,14 @@ class Blockchain(object):
         }
         # TODO: filter out transactions from current_transactions
         temp = []
-        for t in current_transactions:
+        for t in self.current_transactions:
             not_in_trans = True
             for s in transactions:
                 if (t["sender"] = s["sender"] and t["recipient"] = s["recipient"] and t["amount"] = s["amount"]):
                    not_in_trans = False 
             if not_in_trans:
                 temp.append(t)
-        current_transactions = temp
+        self.current_transactions = temp
 
         self.chain.append(block)
         return True
