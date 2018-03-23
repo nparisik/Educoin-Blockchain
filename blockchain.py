@@ -242,6 +242,7 @@ class Blockchain(object):
             self.temp_unspent.clear()
             self.unspent.update(new_unspent)
             self.temp_unspent.update(new_unspent)
+            self.current_transactions = []
             for t in current_transactions:
                 if (self.valid_transaction(t['sender'],t['recipient'],t['amount'],t['signature'])):
                     self.new_transaction(t['sender'],t['recipient'],t['amount'],t['signature'])
