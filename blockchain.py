@@ -215,6 +215,7 @@ class Blockchain(object):
 
         # We're only looking for chains longer than ours
         max_length = len(self.chain)
+        current_transactions = []
 
         # Grab and verify the chains from all the nodes in our network
         for node in neighbours:
@@ -231,6 +232,7 @@ class Blockchain(object):
                     new_unspent.update(unspent)
                     max_length = length
                     new_chain = chain
+                    current_transactions = response.json()['transactions']
 
         # Replace our chain if we discovered a new, valid chain longer than ours
         if new_chain:
@@ -240,6 +242,9 @@ class Blockchain(object):
             self.temp_unspent.clear()
             self.unspent.update(new_unspent)
             self.temp_unspent.update(new_unspent)
+            for t in current_transactions:
+                if (self.valid_transaction(t['sender'],t['recipient'],t['amount'],t['signature'])):
+                    self.new_transaction(t['sender'],t['recipient'],t['amount'],t['signature'])
             return True
         
         return False

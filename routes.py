@@ -117,6 +117,7 @@ def new_transaction():
 @app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
+	'transactions': blockchain.current_transactions
         'chain': blockchain.chain,
         'length': len(blockchain.chain)
     }
