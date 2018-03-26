@@ -98,7 +98,7 @@ class Blockchain(object):
         for t in self.current_transactions:
             not_in_trans = True
             for s in transactions:
-                if (t["sender"] = s["sender"] and t["recipient"] = s["recipient"] and t["amount"] = s["amount"]):
+                if t['sender'] == s['sender'] and t['recipient'] == s['recipient'] and t['amount'] == s['amount']:
                    not_in_trans = False 
             if not_in_trans:
                 temp.append(t)
@@ -218,6 +218,7 @@ class Blockchain(object):
 
         # We're only looking for chains longer than ours
         max_length = len(self.chain)
+        current_transactions = []
 
         # Grab and verify the chains from all the nodes in our network
         for node in neighbours:
@@ -234,6 +235,7 @@ class Blockchain(object):
                     new_unspent.update(unspent)
                     max_length = length
                     new_chain = chain
+                    current_transactions = response.json()['transactions']
 
         # Replace our chain if we discovered a new, valid chain longer than ours
         if new_chain:
@@ -243,6 +245,10 @@ class Blockchain(object):
             self.temp_unspent.clear()
             self.unspent.update(new_unspent)
             self.temp_unspent.update(new_unspent)
+            self.current_transactions = []
+            for t in current_transactions:
+                if (self.valid_transaction(t['sender'],t['recipient'],t['amount'],t['signature'])):
+                    self.new_transaction(t['sender'],t['recipient'],t['amount'],t['signature'])
             return True
         
         return False
@@ -314,7 +320,7 @@ class Blockchain(object):
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] =="0000"
    
-   def test_transaction(self, last_transaction):
+    def test_transaction(self, last_transaction):
         """
         Takes in transaction id and tests to see if transaction has already occured.
 
@@ -322,6 +328,6 @@ class Blockchain(object):
         :return: <bool> True if transaction id is unique, false otherwise
         """
         for t in self.current_transactions:
-            if t["sender"] = last_transactions["sender"] and t["recipient"] = last_transactions["recipient"] and t["amount"] = last_transactions["amount"]:
+            if t['sender'] == last_transactions['sender'] and t['recipient'] == last_transactions['recipient'] and t['amount'] == last_transactions['amount']:
                 return False
         return True
