@@ -1,0 +1,5 @@
+﻿Lauren Sachs
+-ensure that the blockchain is running on postman
+-come up with 10 test cases
+-if none of those test cases break the blockchain, work with Ben to come up with more
+-work with web development team to come up with possible test cases that they can predict from their end that I may not have seen
