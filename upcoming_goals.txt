@@ -15,3 +15,15 @@ Josh Pirog
 -Communicate w/ app dev team for integration
 -Review new changes with rest of Blockchain team
 -Oversee necessary changes to our code
+
+Nicholas Polich
+-Implement database schema
+-Start coding database backend
+-Continue with database backend
+-finishing touches and testing using Webstorm
+
+Avi Pilly
+-Database schema planning
+-Start coding backend
+-Start coding routes
+-Finish prototype
