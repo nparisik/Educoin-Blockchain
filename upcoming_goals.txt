@@ -3,3 +3,15 @@
 -come up with 10 test cases
 -if none of those test cases break the blockchain, work with Ben to come up with more
 -work with web development team to come up with possible test cases that they can predict from their end that I may not have seen
+
+Nick Parisik
+-Communicate w/ website team for integration
+-Communicate w/ app dev team for integration
+-Communicate new changes to rest of Blockchain team
+-Oversee necessary changes to our code
+
+Josh Pirog
+-Communicate w/ website team for integration
+-Communicate w/ app dev team for integration
+-Review new changes with rest of Blockchain team
+-Oversee necessary changes to our code
