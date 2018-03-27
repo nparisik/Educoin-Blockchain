@@ -27,3 +27,9 @@ Avi Pilly
 -Start coding backend
 -Start coding routes
 -Finish prototype
+
+Ben Rose
+-Prep and confirm local system is ready for tests
+-Make 5-10 test cases
+-Perform tests, collaborate results with Lauren
+-Work with android team to come up with any additional test cases based on potential problems they see
