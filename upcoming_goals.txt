@@ -1,3 +1,9 @@
+Features
+-Backend for mobile and website
+-Integration of blockchain with backend, mobile, and website
+-Testing for blockchain
+
+(each bullet point bellow reprsents 1 week)
 ﻿Lauren Sachs
 -ensure that the blockchain is running on postman
 -come up with 10 test cases
