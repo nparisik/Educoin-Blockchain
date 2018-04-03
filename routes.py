@@ -166,7 +166,7 @@ def identity():
     return jsonify(response), 200
 
 # Retrieves a user's unspent coin balance
-@app.route('/balance/', methods=['GET'])
+@app.route('/balance', methods=['GET'])
 def balance():
     key = request.args.get('key')
     if key is None:
