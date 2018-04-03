@@ -203,11 +203,20 @@ def consensus():
     return jsonify(response), 200
 
 # This will probably be used by the website and mobile
-# to turn a ip address into a node identifier
+# to turn an ip address into a node identifier
 @app.route('/identifier', methods=['GET'])
 def identity():
     response = {'address': node_identifier}
     return jsonify(response), 200
+
+# Retrieves a user's unspent coin balance
+@app.route('/balance', methods=['GET'])
+def balance():
+    key = request.args.get('key')
+    if key is None:
+        return "String missing parameter key.", 400
+    return blockchain.unspent[key]
+    
 
 portn=0
 addr=""
