@@ -44,6 +44,10 @@ def mine():
     temp = set()
     temp.add(f'{addr}:{portn}')
     temp.update(blockchain.nodes)
+
+    threshold = 100
+    if temp < threshold:
+        raise ValueError('Not enough transactions to mine.')
     
     broadcast = {
         'nodes': list(temp),
