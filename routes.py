@@ -44,6 +44,11 @@ def mine():
     temp = set()
     temp.add(f'{addr}:{portn}')
     temp.update(blockchain.nodes)
+
+    threshold = 100
+    temp_sum = sum(temp.values())
+    if temp_sum < threshold:
+        return
     
     broadcast = {
         'nodes': list(temp),
