@@ -46,8 +46,9 @@ def mine():
     temp.update(blockchain.nodes)
 
     threshold = 100
-    if temp < threshold:
-        raise ValueError('Not enough transactions to mine.')
+    temp_sum = sum(temp.values())
+    if temp_sum < threshold:
+        return
     
     broadcast = {
         'nodes': list(temp),
