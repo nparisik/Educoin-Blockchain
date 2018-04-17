@@ -48,7 +48,7 @@ def mine():
     threshold = 100
     temp_sum = sum(temp.values())
     if temp_sum < threshold:
-        return
+        return 'Not enough transactions', 400
     
     broadcast = {
         'nodes': list(temp),
