@@ -88,12 +88,12 @@ GET request to "http://localhost:5000/chain"
 
 * Registering new nodes - allows for a user to connect to the network
 ```
-POST request to "http://localhost:5000/nodes/register"
+POST request to "http://localhost:5000/register"
 ```
 
 * Resolve potential node conflicts
 ```
-GET request to "http://localhost:5000/nodes/resolve"
+GET request to "http://localhost:5000/resolve"
 ```
 
 ### Postman Examples
