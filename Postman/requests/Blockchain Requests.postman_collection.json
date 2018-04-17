@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "http://{{addr}}:{{port}}/nodes/register",
+			"name": "http://{{addr}}:{{port}}/register",
 			"request": {
 				"url": "http://{{addr}}:{{port}}/register",
 				"method": "POST",
