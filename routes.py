@@ -166,7 +166,7 @@ def full_chain():
     return jsonify(response), 200
 
 @app.route('/nodes/register', methods=['POST'])
-def register_nodes():
+def internal_register_nodes():
     values = request.get_json()
     if values is None:
         return "Error: Please provide some json",400
@@ -182,6 +182,21 @@ def register_nodes():
     for node in nodes:
         blockchain.register_node(node)
         requests.post(f'{node}/nodes/register', json = request_body)
+
+    response = {
+        'message': 'New nodes have been added',
+        'total_nodes': list(blockchain.nodes),
+    }
+    return jsonify(response), 201
+
+@app.route('/register', methods=['POST'])
+def external_register_nodes():
+    values = request.get_json()
+    if values is None:
+        return "Error: Please provide some json",400
+    nodes = values.get('nodes')
+    if nodes is None:
+        return "Error: Please supply a valid list of nodes", 400
 
     response = {
         'message': 'New nodes have been added',
@@ -223,8 +238,7 @@ def balance():
     return blockchain.unspent[key]
     
 
-portn=0
-addr=""
+
 def main(host,port):
     """
 
@@ -233,6 +247,8 @@ def main(host,port):
     :param host: <str> The host address of the server
     :param port: <int> The port that the server is listening too
     """
+    global portn
+    global addr
     portn=port
     addr=host
     app.run(host=host, port=port)
