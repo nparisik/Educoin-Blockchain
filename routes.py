@@ -172,16 +172,7 @@ def internal_register_nodes():
         return "Error: Please provide some json",400
     nodes = values.get('nodes')
     if nodes is None:
-        return "Error: Please supply a valid list of nodes", 400
-    
-
-    request_body = {
-        "nodes" : [f'http://{addr}:{portn}']
-    }
-
-    for node in nodes:
-        blockchain.register_node(node)
-        requests.post(f'{node}/nodes/register', json = request_body)
+        return "Error: Please supply a valid list of nodes", 400    
 
     response = {
         'message': 'New nodes have been added',
@@ -197,6 +188,14 @@ def external_register_nodes():
     nodes = values.get('nodes')
     if nodes is None:
         return "Error: Please supply a valid list of nodes", 400
+
+    request_body = {
+        "nodes" : [f'http://{addr}:{portn}']
+    }
+
+    for node in nodes:
+        blockchain.register_node(node)
+        requests.post(f'{node}/nodes/register', json = request_body)
 
     response = {
         'message': 'New nodes have been added',

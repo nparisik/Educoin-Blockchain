@@ -10,7 +10,7 @@
 		{
 			"name": "http://{{addr}}:{{port}}/nodes/register",
 			"request": {
-				"url": "http://{{addr}}:{{port}}/nodes/register",
+				"url": "http://{{addr}}:{{port}}/register",
 				"method": "POST",
 				"header": [
 					{
@@ -21,7 +21,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"nodes\": [\"http://localhost:5000\"]\n}"
+					"raw": "{\n\t\"nodes\": [\"http://localhost:5001\"]\n}"
 				},
 				"description": "register new nodes to the blockchain"
 			},
