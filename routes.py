@@ -234,7 +234,14 @@ def balance():
     key = request.args.get('key')
     if key is None:
         return "String missing parameter key.", 400
-    return blockchain.unspent[key]
+    response = {}
+
+    if key in blockchain.unspent.keys():
+        response = {'balance': blockchain.unspent[key]}
+    else: 
+        response ={'balance': 0}
+
+    return jsonify(response), 200
     
 
 
