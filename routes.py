@@ -138,7 +138,7 @@ def new_transaction():
         return 'Invalid Transaction', 400
     
     # Create a new Transaction
-    index = blockchain.new_transaction(values['sender'],values['recipient'],values['amount'],values['signature'])
+    index = blockchain.new_transaction(values['sender'],values['recipient'],int(values['amount']),values['signature'])
     temp = set()
     temp.add(f'{addr}:{portn}')
     temp.update(blockchain.nodes)
