@@ -46,7 +46,7 @@ def mine():
     temp.update(blockchain.nodes)
 
     threshold = 100
-    temp_sum = sum(temp.values())
+    temp_sum = sum(blockchain.temp_unspent.values())
     if temp_sum < threshold:
         return 'Not enough transactions', 400
     
@@ -134,7 +134,7 @@ def new_transaction():
     required = ['sender', 'recipient', 'amount', 'signature']
     if (values is None or not all(k in values for k in required)):
         return 'Missing values', 400
-    if (not blockchain.valid_transaction(values['sender'],values['recipient'],values['amount'],values['signature'])):
+    if (not blockchain.valid_transaction(values['sender'],values['recipient'],int(values['amount']),values['signature'])):
         return 'Invalid Transaction', 400
     
     # Create a new Transaction
