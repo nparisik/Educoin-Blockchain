@@ -229,18 +229,20 @@ def identity():
     return jsonify(response), 200
 
 # Retrieves a user's unspent coin balance
-@app.route('/balance', methods=['GET'])
+@app.route('/balance', methods=['POST'])
 def balance():
-    key = request.args.get('key')
-    if key is None:
+    values = request.get_json()
+    if values is None:
+        return "Error: Please provide some json",400
+    keys = values.get('keys')
+    if keys is None:
         return "String missing parameter key.", 400
-    response = {}
-
-    if key in blockchain.unspent.keys():
-        response = {'balance': blockchain.unspent[key]}
-    else: 
-        response ={'balance': 0}
-
+    response = {'balance':[]}
+    for key in keys:
+        if key in blockchain.unspent.keys():
+            response['balance'].append(blockchain.unspent[key])
+        else: 
+            response['balance'].append(0)
     return jsonify(response), 200
     
 
