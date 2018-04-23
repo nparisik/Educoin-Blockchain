@@ -46,7 +46,7 @@ def mine():
     temp.update(blockchain.nodes)
 
     threshold = 100
-    temp_sum = sum(temp.values())
+    temp_sum = sum(blockchain.temp_unspent.values())
     if temp_sum < threshold:
         return 'Not enough transactions', 400
     
@@ -134,11 +134,11 @@ def new_transaction():
     required = ['sender', 'recipient', 'amount', 'signature']
     if (values is None or not all(k in values for k in required)):
         return 'Missing values', 400
-    if (not blockchain.valid_transaction(values['sender'],values['recipient'],values['amount'],values['signature'])):
+    if (not blockchain.valid_transaction(values['sender'],values['recipient'],int(values['amount']),values['signature'])):
         return 'Invalid Transaction', 400
     
     # Create a new Transaction
-    index = blockchain.new_transaction(values['sender'],values['recipient'],values['amount'],values['signature'])
+    index = blockchain.new_transaction(values['sender'],values['recipient'],int(values['amount']),values['signature'])
     temp = set()
     temp.add(f'{addr}:{portn}')
     temp.update(blockchain.nodes)
@@ -229,12 +229,21 @@ def identity():
     return jsonify(response), 200
 
 # Retrieves a user's unspent coin balance
-@app.route('/balance', methods=['GET'])
+@app.route('/balance', methods=['POST'])
 def balance():
-    key = request.args.get('key')
-    if key is None:
+    values = request.get_json()
+    if values is None:
+        return "Error: Please provide some json",400
+    keys = values.get('keys')
+    if keys is None:
         return "String missing parameter key.", 400
-    return blockchain.unspent[key]
+    response = {'balance':[]}
+    for key in keys:
+        if key in blockchain.unspent.keys():
+            response['balance'].append(blockchain.unspent[key])
+        else: 
+            response['balance'].append(0)
+    return jsonify(response), 200
     
 
 
