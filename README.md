@@ -17,24 +17,24 @@ and they can also exchange other forms of currency for Educoins.
 After installing the programs listed above, open "blockchain.py" in IDLE and run it.
 This message should be displayed if these steps have been followed correctly:
 ```
-![python_works](/docs/images/python_works.png)
+![python_works](/docs/python_works.png)
 
 
 ```
 Open Postman, a greeting message will appear. Select "Create a basic request" as shown:
 ```
-![postman_intro](/docs/images/postman_intro.png)
+![postman_intro](/docs/postman_intro.png)
 
 ```
 Enter "blockchain" as the request, and (optionally) a description. Create/select a folder to save the request to.
 Your Postman window should look like this:
 ```
-![postman_basic](//docs/images/postman_basic.png)
+![postman_basic](/docs/postman_basic.png)
 
 ### Using Postman
 When using Postman in conjunction with our "blockchain.py" file, there are a few key items
 to pay attention to:
-![postman_watch](/docs/images/postman_watch.png)
+![postman_watch](/docs/postman_watch.png)
 
 ```
 The dropdown menu with "GET" allows different commands for sending/receiving data.
@@ -78,7 +78,7 @@ GET request to "http://localhost:5000/mine"
 POST request to "http://localhost:5000/transactions/new" with a body containing
 our transaction structure, which can be seen below
 ```
-![postman_transactions](/docs/images/postman_transactions.png)
+![postman_transactions](/docs/postman_transactions.png)
 
 
 * View the full blockchain
@@ -100,7 +100,7 @@ GET request to "http://localhost:5000/resolve"
 ```
 Here is an example of mining a block using Postman:
 ```
-![postman_mine](/docs/images/postman_mine.png)
+![postman_mine](/docs/postman_mine.png)
 
 ## Built With
 * [Python 3.6](https://www.python.org/downloads/)
