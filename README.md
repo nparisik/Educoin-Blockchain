@@ -17,7 +17,7 @@ and they can also exchange other forms of currency for Educoins.
 After installing the programs listed above, open "blockchain.py" in IDLE and run it.
 This message should be displayed if these steps have been followed correctly:
 ```
-![python_works](/uploads/4be608a5a324642e4d29a63b3a2ca423/python_works.png)
+![python_works](file:///C:/Users/Nick/Downloads/Documents/COLLLEGE/CS%20-%20347/python_works.png)
 
 
 ```
